@@ -4,7 +4,7 @@
 - Apache Maven 3.2.3
 
 
-** Para baixar as dependencias da aplicação **
+**Para baixar as dependencias da aplicação**
 
 - Abre o  terminal do seu sistema operacional
 - Navegue até a pasta raiz do projeto e digite o seguinte comando:
