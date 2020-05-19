@@ -1,9 +1,7 @@
 package br.com.bancointer;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.security.KeyPair;
 import java.security.PrivateKey;
@@ -11,15 +9,13 @@ import java.security.PublicKey;
 import java.util.List;
 import java.util.Optional;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Bean;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import br.com.bancointer.error.RSAException;
 import br.com.bancointer.error.ResourceNotFoundException;
@@ -32,7 +28,6 @@ import br.com.bancointer.service.CriptografiaRSA;
 import br.com.bancointer.service.UsuarioService;
 
 @SpringBootTest
-@RunWith(SpringRunner.class)
 @TestInstance(Lifecycle.PER_CLASS)
 public class UsuarioServiceTest {
 
@@ -93,13 +88,13 @@ public class UsuarioServiceTest {
 
 	@Test
 	public void removeUsuarioTest() {
-		Exception exception = assertThrows(ResourceNotFoundException.class, () -> {
+		Exception exception = Assertions.assertThrows(ResourceNotFoundException.class, () -> {
 			Usuario user = criarUsuario();
 			usuarioService.delete(user.getId());
 			usuarioService.find(user.getId());
 		});
 
-		assertTrue(exception.getMessage().contains("Usuário Não Encontrado com ID"));
+		Assertions.assertTrue(exception.getMessage().contains("Usuário Não Encontrado com ID"));
 
 	}
 
@@ -121,14 +116,14 @@ public class UsuarioServiceTest {
 	@Test
 	public void salvarUsuarioSemNome() {
 		Usuario user = criarUsuario(null, "bruno.barbosa@bancointer.com.br");
-		assertThrows(RSAException.class, () -> usuarioService.save(user));
+		Assertions.assertThrows(RSAException.class, () -> usuarioService.save(user));
 
 	}
 
 	@Test
 	public void salvarUsuarioSemEmail() {
 		Usuario user = criarUsuario("Bruno", null);
-		assertThrows(RSAException.class, () -> usuarioService.save(user));
+		Assertions.assertThrows(RSAException.class, () -> usuarioService.save(user));
 
 	}
 

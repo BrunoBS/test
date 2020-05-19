@@ -81,6 +81,8 @@ public class UsuarioController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
+	
+	
 	@RequestMapping(value = "/init", method = RequestMethod.OPTIONS)
 	@ApiOperation(value = "EndPoint para configurar o par de chaves do Servidor, (Teste)", response = Usuario.class)
 	@Transactional(rollbackFor = Exception.class)

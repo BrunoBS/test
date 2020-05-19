@@ -35,19 +35,6 @@ public class DigitoUnicoService {
 
 	}
 
-	private void calcular(String valor) {
-		char[] result = valor.toCharArray();
-		for (char c : result) {
-			this.digito += Character.getNumericValue(c);
-		}
-
-		if (this.digito > 9) {
-			String r = this.digito.toString();
-			this.digito = 0;
-			this.calcular(r);
-		}
-	}
-
 	public DigitoUnico digitoUnico(String parametroUm) throws IllegalArgumentException {
 		return digitoUnico(parametroUm, "1");
 	}
@@ -96,6 +83,19 @@ public class DigitoUnicoService {
 					"O Número " + p + " é Inválido, deverá ser um número maior que 0 e menor que " + maximo + ".");
 		}
 
+	}
+
+	private void calcular(String valor) {
+		char[] result = valor.toCharArray();
+		for (char c : result) {
+			this.digito += Character.getNumericValue(c);
+		}
+
+		if (this.digito > 9) {
+			String r = this.digito.toString();
+			this.digito = 0;
+			this.calcular(r);
+		}
 	}
 
 }

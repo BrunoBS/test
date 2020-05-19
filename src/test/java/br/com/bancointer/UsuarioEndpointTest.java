@@ -7,13 +7,11 @@ import java.security.KeyPair;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
-import java.util.Map;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
-import org.junit.runner.RunWith;
 import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -29,13 +27,13 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.junit4.SpringRunner;
 
+import br.com.bancointer.model.ChaveCliente;
 import br.com.bancointer.model.Usuario;
 import br.com.bancointer.service.CriptografiaRSA;
 import br.com.bancointer.service.UsuarioService;
 
-@RunWith(SpringRunner.class)
+
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 @TestInstance(Lifecycle.PER_CLASS)
@@ -113,7 +111,7 @@ public class UsuarioEndpointTest {
 		ResponseEntity<Usuario> response = restTemplate.postForEntity("/v1/usuarios/", entity, Usuario.class);
 		assertThat(response.getStatusCodeValue()).isEqualTo(201);
 
-	}
+	} 
 
 	@Test
 	public void atualizaUmUsuario() {
@@ -131,10 +129,14 @@ public class UsuarioEndpointTest {
 	@Test
 	public void buscaChave() {
 
-		BDDMockito.when(usuarioService.chave(1L).getPublica())
-				.thenReturn(criptografiaRSA.para(generateKeyPair.getPublic()));
-		ResponseEntity<String> response = restTemplate.getForEntity("/v1/usuarios/{id}/chave/", String.class, 1L);
+		ChaveCliente chave = new ChaveCliente();
+		chave.setPublica(criptografiaRSA.para(generateKeyPair.getPublic()));
+
+		BDDMockito.when(usuarioService.chave(1L)).thenReturn(chave);
+		ResponseEntity<ChaveCliente> response = restTemplate.getForEntity("/v1/usuarios/{id}/chave/",
+				ChaveCliente.class, 1L);
 		assertThat(response.getStatusCodeValue()).isEqualTo(200);
+		assertThat(response.getBody().getPublica()).isEqualTo(chave.getPublica());
 
 	}
 
