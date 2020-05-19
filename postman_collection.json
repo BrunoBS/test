@@ -1,0 +1,330 @@
+{
+	"info": {
+		"_postman_id": "826a20b2-867f-4486-ba31-852715bfd2eb",
+		"name": "Banco Inter",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "USUARIO_FIND_ALL",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{HOST}}/usuarios",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"usuarios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "USUARIO_FIND",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "i",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{HOST}}/usuarios/1",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"usuarios",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "USUARIO_CHAVE",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{HOST}}/usuarios/1/chave",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"usuarios",
+						"1",
+						"chave"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "USUARIO_DIGITOS_UNICO",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{HOST}}/digitos/usuario/1",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"digitos",
+						"usuario",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "USUARIO_DELETE",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{HOST}}/usuarios/1",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"usuarios",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "USUARIO_SAVE",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "keyPublica",
+						"value": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnpdEA6nhZ9Og+v4YFjNDv53tSPLVqIaWD9oqsQl5K0t0DfWew0jwr2tIOGUIX7QV/B71vJYGzfAHi5i/rZ5PTG/b4an9e9JAVvd8AOfokOk6Gq0udqtNmR539LNIGtZGg+lunC7JBNbQf19zrqzFx5VnLvV7nYsPRae7J0AMnTOG4cwu/yEGtS8lP8LM1Tg9jo/R5ci6Gi24K/OUZ9AXUFEkMHzKYxpAsV6bb6grbYH9ZiSWkL2+F/TZK+doLVHAdVKywO1Czi1zjrjd1UeE1ApMW+1t7+az8nhaEoTRpg+2x23uMvIp55ghcCFzgDiqiJbr6+SmWAD/Gcahaj6SJQIDAQAB",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n{\r\n  \"email\": \"bruno.barbosa@bancointer.com.br\",\r\n  \"nome\": \"Bruno Barbosa da Silva\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{HOST}}/usuarios",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"usuarios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DIGITO_UNICO_CALCULO",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n{\r\n  \"email\": \"bruno@bruno.com.br\",\r\n  \"nome\": \"Barbosa\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{HOST}}/calculoDigito?parametroUm=9875&parametroDois=4&idUser=1",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"calculoDigito"
+					],
+					"query": [
+						{
+							"key": "parametroUm",
+							"value": "9875"
+						},
+						{
+							"key": "parametroDois",
+							"value": "4"
+						},
+						{
+							"key": "idUser",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SETUP_CHAVE_SERVIDOR",
+			"request": {
+				"method": "OPTIONS",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{HOST}}/init",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"init"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SETUP_CIFRA_CLIENT",
+			"request": {
+				"method": "OPTIONS",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{HOST}}/init",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"init"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "USUARIO_UPDATE",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "keyPublica",
+						"value": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnpdEA6nhZ9Og+v4YFjNDv53tSPLVqIaWD9oqsQl5K0t0DfWew0jwr2tIOGUIX7QV/B71vJYGzfAHi5i/rZ5PTG/b4an9e9JAVvd8AOfokOk6Gq0udqtNmR539LNIGtZGg+lunC7JBNbQf19zrqzFx5VnLvV7nYsPRae7J0AMnTOG4cwu/yEGtS8lP8LM1Tg9jo/R5ci6Gi24K/OUZ9AXUFEkMHzKYxpAsV6bb6grbYH9ZiSWkL2+F/TZK+doLVHAdVKywO1Czi1zjrjd1UeE1ApMW+1t7+az8nhaEoTRpg+2x23uMvIp55ghcCFzgDiqiJbr6+SmWAD/Gcahaj6SJQIDAQAA",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n{\r\n  \"id\": 1,\r\n   \"email\": \"bruno.barbosa@bancointer.com.brr\",\r\n  \"nome\": \"Bruno Barbosa da Silva\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{HOST}}/usuarios",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"usuarios"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "USUARIO_UPDATE_CHAVE",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "keyPublica",
+						"type": "text",
+						"value": "",
+						"disabled": true
+					},
+					{
+						"key": "",
+						"type": "text",
+						"value": "",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnpdEA6nhZ9Og+v4YFjNDv53tSPLVqIaW\r\nD9oqsQl5K0t0DfWew0jwr2tIOGUIX7QV/B71vJYGzfAHi5i/rZ5PTG/b4an9e9JAVvd8AOfokOk6\r\nGq0udqtNmR539LNIGtZGg+lunC7JBNbQf19zrqzFx5VnLvV7nYsPRae7J0AMnTOG4cwu/yEGtS8l\r\nP8LM1Tg9jo/R5ci6Gi24K/OUZ9AXUFEkMHzKYxpAsV6bb6grbYH9ZiSWkL2+F/TZK+doLVHAdVKy\r\nwO1Czi1zjrjd1UeE1ApMW+1t7+az8nhaEoTRpg+2x23uMvIp55ghcCFzgDiqiJbr6+SmWAD/Gcah\r\naj6SJQIDAQAB",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{HOST}}/usuarios/2/chave",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"usuarios",
+						"2",
+						"chave"
+					],
+					"query": [
+						{
+							"key": "usuarioID",
+							"value": "",
+							"disabled": true
+						},
+						{
+							"key": "chavePublica",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

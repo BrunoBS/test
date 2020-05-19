@@ -16,6 +16,7 @@ import br.com.bancointer.error.RSAException;
 import br.com.bancointer.error.ResourceNotFoundException;
 import br.com.bancointer.model.ChaveCliente;
 import br.com.bancointer.model.ChaveServidor;
+import br.com.bancointer.model.DigitoUnico;
 import br.com.bancointer.model.Usuario;
 import br.com.bancointer.repository.ChaveClienteRepository;
 import br.com.bancointer.repository.ChaveServidorRepository;
@@ -23,7 +24,7 @@ import br.com.bancointer.repository.DigitoUnicoRepository;
 import br.com.bancointer.repository.UsuarioRepository;
 
 @Component
-public class UsuarioService {
+public class AppService {
 
 	@Autowired
 	private UsuarioRepository usuarioRepository;
@@ -34,6 +35,9 @@ public class UsuarioService {
 	private ChaveClienteRepository chaveClienteRepository;
 	@Autowired
 	private DigitoUnicoRepository digitoUnicoRepository;
+
+	@Autowired
+	protected DigitoUnicoService digitoUnicoService;
 
 	@Autowired
 	protected CriptografiaRSA criptografiaRSA;
@@ -105,10 +109,11 @@ public class UsuarioService {
 
 		existeUsuario(id);
 		Usuario usuario = usuarioRepository.findById(id).get();
-
 		try {
 			ChaveCliente chaveCliente = chave(id);
-			criptografar(usuario, chaveCliente.getPublica());
+			if (!chaveCliente.getPublica().isEmpty()) {
+				criptografar(usuario, chaveCliente.getPublica());
+			}
 		} catch (Exception e) {
 			throw new RSAException("Chave inválida!");
 		}
@@ -139,8 +144,10 @@ public class UsuarioService {
 			throw new ResourceNotFoundException("Usuário Não Encontrado com ID " + id);
 	}
 
-	public void atualizaChave(Usuario usuario, String chavePublicaCliente) {
+	public void atualizaChave(Long usuarioID, String chavePublicaCliente) {
+		existeUsuario(usuarioID);
 		try {
+			Usuario usuario = usuarioRepository.findById(usuarioID).get();
 			validaChave(chavePublicaCliente);
 			ChaveCliente chave = salvaChaveRSA(usuario);
 			chave.setPublica(chavePublicaCliente);
@@ -194,6 +201,14 @@ public class UsuarioService {
 		}
 
 		return c.get();
+
+	}
+
+	public void salvaDigitoUnico(DigitoUnico digitoUnico, Long idUser) {
+		existeUsuario(idUser);
+		Usuario usuario = usuarioRepository.findById(idUser).get();
+		digitoUnico.setUsuario(usuario);
+		digitoUnicoRepository.save(digitoUnico);
 
 	}
 

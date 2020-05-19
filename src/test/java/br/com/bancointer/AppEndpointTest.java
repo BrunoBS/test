@@ -31,20 +31,20 @@ import org.springframework.http.ResponseEntity;
 import br.com.bancointer.model.ChaveCliente;
 import br.com.bancointer.model.Usuario;
 import br.com.bancointer.service.CriptografiaRSA;
-import br.com.bancointer.service.UsuarioService;
+import br.com.bancointer.service.AppService;
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 @TestInstance(Lifecycle.PER_CLASS)
-public class UsuarioEndpointTest {
+public class AppEndpointTest {
 	@Autowired
 	private TestRestTemplate restTemplate;
 	@LocalServerPort
 	private int port;
 
 	@MockBean
-	private UsuarioService usuarioService;
+	private AppService usuarioService;
 
 	@Autowired
 	protected CriptografiaRSA criptografiaRSA;

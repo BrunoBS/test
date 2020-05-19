@@ -21,18 +21,20 @@ import br.com.bancointer.error.RSAException;
 import br.com.bancointer.error.ResourceNotFoundException;
 import br.com.bancointer.model.ChaveCliente;
 import br.com.bancointer.model.ChaveServidor;
+import br.com.bancointer.model.DigitoUnico;
 import br.com.bancointer.model.Usuario;
 import br.com.bancointer.repository.ChaveClienteRepository;
 import br.com.bancointer.repository.ChaveServidorRepository;
 import br.com.bancointer.service.CriptografiaRSA;
-import br.com.bancointer.service.UsuarioService;
+import br.com.bancointer.service.DigitoUnicoService;
+import br.com.bancointer.service.AppService;
 
 @SpringBootTest
 @TestInstance(Lifecycle.PER_CLASS)
-public class UsuarioServiceTest {
+public class AppServiceTest {
 
 	@Autowired
-	private UsuarioService usuarioService;
+	private AppService appService;
 
 	@Autowired
 	private ChaveServidorRepository chaveServidorRepository;
@@ -47,15 +49,33 @@ public class UsuarioServiceTest {
 
 	@BeforeAll
 	public void init() throws Exception {
-		usuarioService.config();
+		appService.config();
 		chaveServidor = chaveServidorRepository.findTop1ByOrderByIdDesc().get();
 
+	}
+
+	@Autowired
+	private DigitoUnicoService digitoUnicoService;
+
+	@Test
+	public void testaCifra() throws Exception {
+		Usuario user = criarUsuario();
+		appService.cifra(user);
+		assertThat("Bruno").isNotEqualTo(user.getNome());
+	}
+
+	@Test
+	public void salvarDigitoUnico() throws Exception {
+		Usuario user = criarUsuario();
+		DigitoUnico digitoUnico = digitoUnicoService.digitoUnico("9875");
+		appService.salvaDigitoUnico(digitoUnico, user.getId());
+		assertThat(digitoUnico.getId()).isNotNull();
 	}
 
 	@Test
 	public void buscaTodosUsuarios() throws Exception {
 		Usuario user = criarUsuario();
-		List<Usuario> listAll = this.usuarioService.listAll();
+		List<Usuario> listAll = this.appService.listAll();
 		assertEquals(1, listAll.stream().filter(u -> u.getId().equals(user.getId())).count());
 	}
 
@@ -72,7 +92,7 @@ public class UsuarioServiceTest {
 		Usuario user = criarUsuario();
 		PublicKey publica = criptografiaRSA.generateKeyPair().getPublic();
 		String chave = criptografiaRSA.para(publica);
-		usuarioService.atualizaChave(user, chave);
+		appService.atualizaChave(user.getId(), chave);
 		Optional<ChaveCliente> ChaveSalva = chaveClienteRepository.findTop1ByUsuarioId(user.getId());
 		if (ChaveSalva.isPresent()) {
 			assertThat(chave).isEqualTo(ChaveSalva.get().getPublica());
@@ -82,7 +102,7 @@ public class UsuarioServiceTest {
 
 	private Usuario criarUsuario() {
 		Usuario user = criarUsuario("Bruno", "bruno.barbosa@bancointer.com.br");
-		this.usuarioService.save(user);
+		this.appService.save(user);
 		return user;
 	}
 
@@ -90,8 +110,8 @@ public class UsuarioServiceTest {
 	public void removeUsuarioTest() {
 		Exception exception = Assertions.assertThrows(ResourceNotFoundException.class, () -> {
 			Usuario user = criarUsuario();
-			usuarioService.delete(user.getId());
-			usuarioService.find(user.getId());
+			appService.delete(user.getId());
+			appService.find(user.getId());
 		});
 
 		Assertions.assertTrue(exception.getMessage().contains("Usuário Não Encontrado com ID"));
@@ -106,8 +126,8 @@ public class UsuarioServiceTest {
 		PublicKey publica = generateKeyPair.getPublic();
 		PrivateKey privada = generateKeyPair.getPrivate();
 		String chave = criptografiaRSA.para(publica);
-		usuarioService.atualizaChave(user, chave);
-		user = usuarioService.find(user.getId());
+		appService.atualizaChave(user.getId(), chave);
+		user = appService.find(user.getId());
 		assertThat(user.getId()).isNotNull();
 		assertThat("Bruno").isEqualTo(criptografiaRSA.decriptografa(user.getNome(), criptografiaRSA.para(privada)));
 
@@ -116,14 +136,14 @@ public class UsuarioServiceTest {
 	@Test
 	public void salvarUsuarioSemNome() {
 		Usuario user = criarUsuario(null, "bruno.barbosa@bancointer.com.br");
-		Assertions.assertThrows(RSAException.class, () -> usuarioService.save(user));
+		Assertions.assertThrows(RSAException.class, () -> appService.save(user));
 
 	}
 
 	@Test
 	public void salvarUsuarioSemEmail() {
 		Usuario user = criarUsuario("Bruno", null);
-		Assertions.assertThrows(RSAException.class, () -> usuarioService.save(user));
+		Assertions.assertThrows(RSAException.class, () -> appService.save(user));
 
 	}
 
@@ -141,9 +161,9 @@ public class UsuarioServiceTest {
 
 	@Test
 	public void buscasChaveDoUsuario() throws Exception {
-		Usuario user = criarUsuario("Bruno","bruno.barbosa@bancointer.com.br");
-		this.usuarioService.save(user);
-		String chave = this.usuarioService.chave(user.getId()).getPublica();
+		Usuario user = criarUsuario("Bruno", "bruno.barbosa@bancointer.com.br");
+		this.appService.save(user);
+		String chave = this.appService.chave(user.getId()).getPublica();
 		assertThat(user.getId()).isNotNull();
 
 	}

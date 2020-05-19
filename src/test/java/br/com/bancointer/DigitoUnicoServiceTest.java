@@ -1,5 +1,9 @@
 package br.com.bancointer;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.util.List;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -7,6 +11,8 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import br.com.bancointer.model.Usuario;
+import br.com.bancointer.service.AppService;
 import br.com.bancointer.service.DigitoUnicoService;
 
 @SpringBootTest
@@ -16,6 +22,9 @@ public class DigitoUnicoServiceTest {
 
 	@Autowired
 	private DigitoUnicoService digitoUnicoService;
+
+	@Autowired
+	private AppService appService;
 
 	@Test
 	public void digitoComApenasUmParametro() throws Exception {

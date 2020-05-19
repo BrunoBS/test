@@ -23,14 +23,14 @@ import sun.misc.BASE64Encoder;
 @Service
 public class CriptografiaRSA {
 
-	private final String ALGORITHM = "RSA";
-	private int TAMANHO_RSA = 2048;
-	private final BASE64Encoder ENCODER = new BASE64Encoder();
-	private final BASE64Decoder DECODER = new BASE64Decoder();
+	private static final String RSA = "RSA";
+	private static final int TAMANHO = 2048;
+	private static final BASE64Encoder ENCODER = new BASE64Encoder();
+	private static final BASE64Decoder DECODER = new BASE64Decoder();
 
 	public KeyPair generateKeyPair() throws Exception {
-		KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA");
-		generator.initialize(TAMANHO_RSA, new SecureRandom());
+		KeyPairGenerator generator = KeyPairGenerator.getInstance(RSA);
+		generator.initialize(TAMANHO, new SecureRandom());
 		return generator.generateKeyPair();
 	}
 
@@ -42,21 +42,22 @@ public class CriptografiaRSA {
 		return ENCODER.encode(chave.getEncoded());
 	}
 
-	public PublicKey generatePublic(String key) throws InvalidKeyException, IOException, NoSuchAlgorithmException, InvalidKeySpecException {
+	public PublicKey generatePublic(String key)
+			throws InvalidKeyException, IOException, NoSuchAlgorithmException, InvalidKeySpecException {
 
 		byte[] keyBytes = DECODER.decodeBuffer(key);
 
-		KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+		KeyFactory keyFactory = KeyFactory.getInstance(RSA);
 		X509EncodedKeySpec publicKeySpec = new X509EncodedKeySpec(keyBytes);
 		return keyFactory.generatePublic(publicKeySpec);
 
 	}
 
-	private PrivateKey generatePrivate(String key) throws Exception{
+	private PrivateKey generatePrivate(String key) throws Exception {
 
 		byte[] keyBytes = DECODER.decodeBuffer(key);
 
-		KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+		KeyFactory keyFactory = KeyFactory.getInstance(RSA);
 		PKCS8EncodedKeySpec publicKeySpec = new PKCS8EncodedKeySpec(keyBytes);
 		return keyFactory.generatePrivate(publicKeySpec);
 
@@ -70,7 +71,7 @@ public class CriptografiaRSA {
 	public String criptografa(String texto, PublicKey chave) throws Exception {
 		byte[] cipherText = null;
 
-		final Cipher cipher = Cipher.getInstance(ALGORITHM);
+		final Cipher cipher = Cipher.getInstance(RSA);
 		cipher.init(Cipher.ENCRYPT_MODE, chave);
 		cipherText = cipher.doFinal(texto.getBytes());
 
@@ -85,7 +86,7 @@ public class CriptografiaRSA {
 	public String decriptografa(String texto, PrivateKey chave) throws Exception {
 		byte[] dectyptedText = null;
 
-		final Cipher cipher = Cipher.getInstance(ALGORITHM);
+		final Cipher cipher = Cipher.getInstance(RSA);
 		cipher.init(Cipher.DECRYPT_MODE, chave);
 		dectyptedText = cipher.doFinal(DECODER.decodeBuffer(texto));
 

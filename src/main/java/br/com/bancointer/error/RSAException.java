@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.BAD_REQUEST)
 public class RSAException extends RuntimeException {
+	private static final long serialVersionUID = 1L;
+
 	public RSAException(String message) {
 		super(message);
 	}
