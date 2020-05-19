@@ -1,10 +1,10 @@
-# Requisitos:
+**Requisitos:**
 
 - JDK (Java Development Kit) 1.8 ou superior.
 - Apache Maven 3.2.3
 
 
-#  Como baixar as dependencias de sua aplicação?
+** Para baixar as dependencias da aplicação **
 
 - Abre o  terminal do seu sistema operacional
 - Navegue até a pasta raiz do projeto e digite o seguinte comando:
