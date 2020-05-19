@@ -4,7 +4,7 @@
 - Apache Maven 3.2.3
 
 
-#  Como baixar as dpendencias de sua aplicação?
+#  Como baixar as dependencias de sua aplicação?
 
 - Abre o  terminal do seu sistema operacional
 - Navegue até a pasta raiz do projeto e digite o seguinte comando:
@@ -15,14 +15,14 @@
 ```
 
 
-Caso **não** queira execeutar  os testes 
+**Como Executar os testes da aplicação**
 
 ```
    mvn install -Dmaven.test.skip=true
    
 ```
 
-Após baixar todas as dependencias executar  a aplicação:
+**Para executar a a aplicação execuatar o comando abaixo** 
 
 ```
   mvn spring-boot:run
