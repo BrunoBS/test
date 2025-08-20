@@ -1,0 +1,44 @@
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.networknt.schema.*;
+
+import java.io.InputStream;
+import java.util.Set;
+
+public class OfflineSchemaValidation {
+    public static void main(String[] args) throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+
+        // Carrega o meta-schema principal do classpath
+        InputStream metaSchemaStream = OfflineSchemaValidation.class.getResourceAsStream(
+                "/json-schema-2020-12/schema.json");
+
+        JsonNode metaSchemaNode = mapper.readTree(metaSchemaStream);
+
+        // Configura para usar recursos do classpath ao resolver $ref
+        JsonSchemaFactory factory = JsonSchemaFactory.builder(JsonSchemaFactory.getInstance(SpecVersion.VersionFlag.V202012))
+                .urlFetcher((uri) -> {
+                    String path = uri.toString()
+                            .replace("https://json-schema.org/draft/2020-12/", "/json-schema-2020-12/");
+                    return OfflineSchemaValidation.class.getResourceAsStream(path);
+                })
+                .build();
+
+        // Cria o validador do meta-schema
+        JsonSchema metaSchema = factory.getSchema(metaSchemaNode);
+
+        // Carrega o schema do usuário
+        InputStream mySchemaStream = OfflineSchemaValidation.class.getResourceAsStream("/meu-schema.json");
+        JsonNode mySchemaNode = mapper.readTree(mySchemaStream);
+
+        // Valida offline
+        Set<ValidationMessage> errors = metaSchema.validate(mySchemaNode);
+
+        if (errors.isEmpty()) {
+            System.out.println("✅ Schema válido (offline)");
+        } else {
+            System.out.println("❌ Schema inválido:");
+            errors.forEach(err -> System.out.println(" - " + err.getMessage()));
+        }
+    }
+}
