@@ -1,0 +1,108 @@
+Perfeito. Abaixo está um prompt bem estruturado, claro e técnico, pensado para você encaminhar diretamente ao Figma / time de UX, descrevendo objetivo, comportamento, fluxos e restrições da feature de árvore de decisão (Rule Engine / BRE-like).
+Você pode copiar e colar como está.
+🎯 Prompt para Design – Feature de Regras (Árvore de Decisão)
+Contexto do Produto
+Estamos criando uma feature de cadastro e execução de regras, semelhante a um Business Rules Engine (BRE), que funcione como uma árvore de decisão.
+Essa funcionalidade será usada por usuários técnicos e semi-técnicos para modelar decisões de negócio sem alterar código.
+🎯 Objetivo da Feature
+Permitir que o usuário:
+Crie regras condicionais em formato de árvore de decisão
+Encadeie regras de forma recursiva (uma regra pode apontar para outra)
+Defina retornos variados (valores primitivos ou outra regra)
+Visualize claramente o fluxo de decisão
+Entenda facilmente qual caminho foi seguido e qual resultado foi retornado
+🧠 Conceito Principal
+Cada Regra é um nó da árvore.
+Uma regra contém:
+Condições (IF / ELSE IF / ELSE)
+Um resultado, que pode ser:
+Valor primitivo (string, number, boolean)
+Lista
+Objeto simples
+Outra regra (recursivo)
+A execução sempre começa em uma regra raiz.
+🧩 Estrutura de uma Regra
+Cada regra deve permitir configurar:
+Identificação
+Nome da regra
+Código/ID único
+Descrição
+Condições
+Campo (ex: idade, score, tipoCliente)
+Operador (=, !=, >, <, >=, <=, in, not in)
+Valor de comparação
+Suporte a múltiplas condições (AND / OR)
+Resultado da Condição Para cada condição verdadeira:
+Retornar um valor OU
+Direcionar para outra regra
+Fallback (ELSE)
+Resultado padrão caso nenhuma condição seja atendida
+🧭 Experiência Esperada (UX)
+1️⃣ Visão Geral das Regras
+Lista de regras cadastradas
+Indicação visual:
+Regras simples
+Regras que chamam outras regras
+Regras reutilizadas em vários fluxos
+Ação clara: Criar nova regra
+2️⃣ Editor de Regra (Principal)
+O editor deve ser:
+Visual (estilo fluxo/árvore)
+Também permitir edição em formulário
+Layout sugerido:
+Painel esquerdo: propriedades da regra
+Área central: árvore de decisão visual
+Painel direito (opcional): detalhes do nó selecionado
+3️⃣ Construção da Árvore
+Cada condição é um bloco
+Cada bloco aponta para:
+Resultado final OU
+Outra regra (selecionável via autocomplete/modal)
+Visualmente:
+Conectores claros (setas)
+Diferenciação de:
+Retorno final
+Chamada de outra regra
+4️⃣ Tipos de Retorno
+O usuário deve poder escolher:
+Texto
+Número
+Booleano
+Lista simples
+Objeto simples (key/value)
+Regra existente
+A UI deve impedir loops infinitos (ex: regra A → B → A).
+5️⃣ Simulação / Teste
+Criar uma experiência de:
+Inserir dados de entrada (mock)
+Executar a regra
+Visualizar:
+Caminho percorrido na árvore
+Regra final executada
+Valor retornado
+6️⃣ Reuso e Governança
+Indicar quando uma regra é usada por outras
+Alertar impacto ao editar uma regra reutilizada
+Permitir versionamento (opcional, mas considerar no design)
+⚠️ Restrições e Cuidados
+UX precisa ser clara mesmo com árvores grandes
+Evitar complexidade excessiva para regras simples
+Usuário deve entender facilmente:
+Onde começa
+Onde termina
+O que acontece em cada decisão
+🎨 Inspirações Visuais (Referência)
+Decision Trees
+Rule Flow
+BPMN simplificado
+No-code / low-code builders (ex: Node-based flows)
+✅ Resultado Esperado do Design
+Tela de listagem de regras
+Editor visual de regra (árvore)
+Fluxo de criação e edição
+Simulação de execução
+Estados de erro (loop, regra inválida, retorno ausente)
+Se quiser, no próximo passo posso:
+Traduzir isso para linguagem 100% UX
+Criar um prompt ainda mais curto e direto
+Ou já te ajudar a desenhar o modelo mental da árvore (domínio + backend)
